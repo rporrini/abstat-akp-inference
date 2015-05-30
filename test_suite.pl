@@ -6,17 +6,30 @@
 file(File, Lines) :- 
 	tmp_file(test, File),
 	open(File, write, Stream),
-	line(Stream, Lines),
+	lines(Stream, Lines),
 	close(Stream).
-line(Stream, [Line|_]) :-
+lines(_, []) :- !.
+lines(Stream, [Line|Others]) :-
 	write(Stream, Line),
-	nl(Stream).
+	nl(Stream),
+	lines(Stream, Others).
 
-test('an rdf file with a single line should be loaded', [cleanup(delete_file(File))]) :- 
-	file(File, ['<subject> <predicate> <object> .']),
+test('a single triple should be loaded', [cleanup(delete_file(File))]) :- 
+	file(File, [
+		'<subject> <predicate> <object> .'
+	]),
 	load(File),
 	rdf(subject, predicate, object).
-
+test('many triples should be loaded', [cleanup(delete_file(File))]) :- 
+	file(File, [
+		'<1> <2> <3> .',
+		'<4> <5> <6> .',
+		'<7> <8> <9> .'
+	]),
+	load(File),
+	rdf('1', '2', '3'),
+	rdf('4', '5', '6'),
+	rdf('7', '8', '9').
 test('should always pass') :- true.
 
 :- end_tests(suite).
