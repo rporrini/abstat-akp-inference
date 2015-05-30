@@ -3,4 +3,4 @@
 :- use_module(library(semweb/rdf_ntriples)).
 
 load(File) :- 
-	rdf_load(File, [format(ntriples)]).
+	rdf_load(File, [format(ntriples), silent(true)]).

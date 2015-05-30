@@ -14,23 +14,23 @@ lines(Stream, [Line|Others]) :-
 	nl(Stream),
 	lines(Stream, Others).
 
-test('a single triple should be loaded', [cleanup(delete_file(File))]) :- 
+test("a single triple should be loaded", [cleanup(delete_file(File))]) :- 
 	file(File, [
-		'<subject> <predicate> <object> .'
+		"<subject> <predicate> <object> ."
 	]),
 	load(File),
 	rdf(subject, predicate, object).
-test('many triples should be loaded', [cleanup(delete_file(File))]) :- 
+test("many triples should be loaded", [cleanup(delete_file(File))]) :- 
 	file(File, [
-		'<1> <2> <3> .',
-		'<4> <5> <6> .',
-		'<7> <8> <9> .'
+		"<1> <2> <3> .",
+		"<4> <5> <6> .",
+		"<7> <8> <9> ."
 	]),
 	load(File),
 	rdf('1', '2', '3'),
 	rdf('4', '5', '6'),
 	rdf('7', '8', '9').
-test('should always pass') :- true.
+test("should always pass") :- true.
 
 :- end_tests(suite).
 
