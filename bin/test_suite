@@ -2,9 +2,6 @@
 
 set -e
 
-relative_path=`dirname $0`
-this_directory=`cd $relative_path;pwd`
-cd $this_directory
-
 swipl --version
+swipl -s test_suite.pl -g run_tests,halt -t 'halt(1)'
 
