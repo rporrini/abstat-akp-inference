@@ -1,0 +1,12 @@
+#!/bin/bash
+
+set -e
+
+relative_path=`dirname $0`
+this_directory=`cd $relative_path;pwd`
+cd $this_directory
+
+./bin/run swipl --version | grep "SWI-Prolog"
+
+exit ?$
+

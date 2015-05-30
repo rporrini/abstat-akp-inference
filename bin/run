@@ -10,5 +10,6 @@ echo "********** building the enviroment **********"
 docker build --rm -t $name .
 docker rm -f $(docker ps -aq)
 echo "********** running $@ **********"
-docker run -it -h $name-sandbox --name $name $name "$@"
+docker run -it -h $name-sandbox --name $name $name "$@" 2> /dev/null
+echo
 
