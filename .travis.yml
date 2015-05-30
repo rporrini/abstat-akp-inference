@@ -1,7 +1,9 @@
 sudo: true
 
+env: UML_DOCKERCOMPOSE=0 UML_FIG=0 QUIET=1
+
 install:
 - curl -sLo - http://j.mp/install-travis-docker | sh -xe
 
 script:
-- ./run "docker build --rm -t akp-inference bin && docker run -i --name akp-inference akp-inference echo hello world"
+- ./run "./bin/run echo hello world"
