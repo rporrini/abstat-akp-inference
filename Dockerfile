@@ -13,3 +13,5 @@ WORKDIR $install_dir
 
 ENTRYPOINT ["/bin/bash"]
 
+CMD ["-c", "swipl"]
+
