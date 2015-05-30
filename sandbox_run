@@ -11,5 +11,5 @@ docker build --rm -t $name .
 docker rm -f $(docker ps -aq)
 echo "********** running $@ **********"
 docker run -it -h $name-sandbox --name $name $name "$@" 2> /dev/null
-echo
+exit $(docker inspect -f {{.State.ExitCode}} akp-inference)
 
