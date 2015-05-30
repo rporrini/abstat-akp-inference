@@ -4,10 +4,12 @@ relative_path=`dirname $0`
 this_directory=`cd $relative_path;pwd`
 
 cd $this_directory
+name=akp-inference
 
 echo "********** building the enviroment **********"
-docker build --rm -t akp-inference .
+docker build --rm -t $name .
 docker rm -f $(docker ps -aq)
 echo "********** running $@ **********"
-docker run --name akp-inference akp-inference "$@"
+docker run -it -h $name-sandbox --name $name $name "$@" 2> /dev/null
+exit $(docker inspect -f {{.State.ExitCode}} $name)
 
