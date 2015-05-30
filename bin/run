@@ -1,14 +1,11 @@
-#!/bin/sh
-
-set -e
+#!/bin/bash
 
 relative_path=`dirname $0`
 this_directory=`cd $relative_path;pwd`
 
 cd $this_directory
 
-set +e
 docker build --rm -t akp-inference .
 docker rm -f $(docker ps -aq)
-docker run -it --name akp-inference akp-inference "$@"
+docker run --name akp-inference akp-inference "$@"
 
