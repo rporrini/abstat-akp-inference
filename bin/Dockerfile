@@ -1,4 +1,4 @@
-FROM textlab/ubuntu-essential:latest
+FROM debian:latest
 
 CMD ["/bin/bash"]
 
