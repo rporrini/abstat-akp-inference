@@ -11,5 +11,12 @@ docker build --rm -t $name .
 docker rm -f $(docker ps -aq)
 echo "********** running $@ **********"
 docker run -it -h $name-sandbox --name $name $name "$@" 2> /dev/null
-exit $(docker inspect -f {{.State.ExitCode}} $name)
+exit_code=$(docker inspect -f {{.State.ExitCode}} $name)
+message=FAIL
+if [[ $exit_code -eq 0 ]]
+then
+	message=OK
+fi
+echo $message
+exit $exit_code
 
