@@ -2,4 +2,4 @@ install:
 - curl -sLo - http://j.mp/install-travis-docker | sh -xe
 
 script:
-- ./run "docker version && docker info"
+- ./bin/run "echo hello world"
