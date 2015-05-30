@@ -8,5 +8,3 @@ cd $this_directory
 
 swipl --version
 
-exit ?$
-
