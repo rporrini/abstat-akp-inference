@@ -6,5 +6,4 @@ install:
 - curl -sLo - http://j.mp/install-travis-docker | sh -xe
 
 script:
-- ./run "./bin/run echo hello world >> execution_result.txt"
-- echo RESULT: && echo execution_result.txt
+- ./run "./bin/run echo hello world >> execution_result.txt && echo RESULT: && echo execution_result.txt"
