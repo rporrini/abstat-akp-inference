@@ -8,5 +8,5 @@ load(File) :-
 sub_class(Subclass, Superclass) :-
 	rdf(Subclass, skos:broader, Superclass).
 sub_class(Subclass, Superclass) :-
-	sub_class(Subclass, X),
+	rdf(Subclass, skos:broader, X),
 	sub_class(X, Superclass).
