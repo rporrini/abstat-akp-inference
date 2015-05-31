@@ -22,21 +22,21 @@ test('a single triple should be loaded', [cleanup(delete_file(File))]) :-
 	rdf(subject, predicate, object).
 test('many triples should be loaded', [cleanup(delete_file(File))]) :- 
 	file(File, [
-		'<1> <2> <3> .',
-		'<4> <5> <6> .',
-		'<7> <8> <9> .'
+		'<a> <b> <c> .',
+		'<d> <e> <f> .',
+		'<g> <h> <i> .'
 	]),
 	load(File),
-	rdf('1', '2', '3'),
-	rdf('4', '5', '6'),
-	rdf('7', '8', '9').
+	rdf(a, b, c),
+	rdf(d, e, f),
+	rdf(g, h, i).
 test('sublcass relations should be used to reconstruct a simple hierarchy', [cleanup(delete_file(File))]) :- 
 	file(File,[
 		'<subclass> <http://www.w3.org/2004/02/skos/core#broader> <superclass> .'
 	]),
 	load(File),
-	sub_class('subclass', 'superclass').
-test('subclassed should be queriable', [cleanup(delete_file(File))]) :- 
+	sub_class(subclass, superclass).
+test('subclasses should be queriable', [cleanup(delete_file(File))]) :- 
 	file(File,[
 		'<subclass> <http://www.w3.org/2004/02/skos/core#broader> <superclass> .'
 	]),
