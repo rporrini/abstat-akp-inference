@@ -21,6 +21,7 @@ kb(File, Assertions) :-
 	load(File).
 
 test('a trivial test should always pass') :- true.
+
 test('a single triple should be loaded', [cleanup(empty_kb(File))]) :- 
 	kb(File, [
 		'<subject> <predicate> <object> .'
@@ -35,6 +36,7 @@ test('many triples should be loaded', [cleanup(empty_kb(File))]) :-
 	rdf(a, b, c),
 	rdf(d, e, f),
 	rdf(g, h, i).
+
 test('sublcass relations should be used to reconstruct a simple hierarchy', [nondet, cleanup(empty_kb(File))]) :- 
 	kb(File,[
 		'<subclass> <http://www.w3.org/2004/02/skos/core#broader> <superclass> .'
