@@ -6,4 +6,8 @@ load(File) :-
 	rdf_load(File, [format(ntriples), silent(true)]).
 
 sub_class(Subclass, Superclass) :- 
-	rdf(Subclass, 'http://www.w3.org/2004/02/skos/core#broader', Superclass).
+	rdf(Subclass, skos:broader, Superclass),
+	!.
+sub_class(Subclass, Superclass) :-
+	sub_class(Subclass, X),
+	sub_class(X, Superclass).
