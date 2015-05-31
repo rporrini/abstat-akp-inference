@@ -49,7 +49,8 @@ test('subclasses should be queriable', [cleanup(empty_kb(File))]) :-
 test('subclasses should be entailed', [cleanup(empty_kb(File))]) :- 
 	file(File,[
 		'<subclass> <http://www.w3.org/2004/02/skos/core#broader> <b> .',
-		'<b> <http://www.w3.org/2004/02/skos/core#broader> <superclass> .'
+		'<b> <http://www.w3.org/2004/02/skos/core#broader> <c> .',
+		'<c> <http://www.w3.org/2004/02/skos/core#broader> <superclass> .'
 	]),
 	load(File),
 	sub_class(subclass, superclass).
