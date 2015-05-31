@@ -33,20 +33,20 @@ test('many triples should be loaded', [cleanup(empty_kb(File))]) :-
 	rdf(a, b, c),
 	rdf(d, e, f),
 	rdf(g, h, i).
-test('sublcass relations should be used to reconstruct a simple hierarchy', [cleanup(empty_kb(File))]) :- 
+test('sublcass relations should be used to reconstruct a simple hierarchy', [nondet, cleanup(empty_kb(File))]) :- 
 	file(File,[
 		'<subclass> <http://www.w3.org/2004/02/skos/core#broader> <superclass> .'
 	]),
 	load(File),
 	sub_class(subclass, superclass).
-test('subclasses should be queriable', [cleanup(empty_kb(File))]) :- 
+test('subclasses should be queriable', [nondet, cleanup(empty_kb(File))]) :- 
 	file(File,[
 		'<subclass> <http://www.w3.org/2004/02/skos/core#broader> <superclass> .'
 	]),
 	load(File),
 	sub_class(subclass, Superclass),
 	assertion(Superclass == superclass).
-test('subclasses should be entailed', [cleanup(empty_kb(File))]) :- 
+test('subclasses should be entailed', [nondet, cleanup(empty_kb(File))]) :- 
 	file(File,[
 		'<subclass> <http://www.w3.org/2004/02/skos/core#broader> <b> .',
 		'<b> <http://www.w3.org/2004/02/skos/core#broader> <c> .',
