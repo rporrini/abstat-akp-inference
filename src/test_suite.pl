@@ -1,5 +1,5 @@
 :- use_module(library(semweb/rdf_db)).
-:- use_module(summary).
+:- use_module(concept_graph).
 
 :- begin_tests(suite).
 
@@ -39,12 +39,12 @@ test('sublcass relations should be used to reconstruct a simple hierarchy', [non
 	kb(File,[
 		'<subclass> <http://www.w3.org/2004/02/skos/core#broader> <superclass> .'
 	]),
-	sub_class(subclass, superclass).
+	sub_concept(subclass, superclass).
 test('subclasses should be queriable', [nondet, cleanup(empty_kb(File))]) :- 
 	kb(File,[
 		'<subclass> <http://www.w3.org/2004/02/skos/core#broader> <superclass> .'
 	]),
-	sub_class(subclass, Superclass),
+	sub_concept(subclass, Superclass),
 	assertion(Superclass == superclass).
 test('subclasses should be entailed', [nondet, cleanup(empty_kb(File))]) :- 
 	kb(File,[
@@ -52,13 +52,13 @@ test('subclasses should be entailed', [nondet, cleanup(empty_kb(File))]) :-
 		'<b> <http://www.w3.org/2004/02/skos/core#broader> <c> .',
 		'<c> <http://www.w3.org/2004/02/skos/core#broader> <superclass> .'
 	]),
-	sub_class(subclass, superclass).
+	sub_concept(subclass, superclass).
 test('subclasses should be entailed', [nondet, cleanup(empty_kb(File))]) :- 
 	kb(File,[
 		'<subclass> <http://www.w3.org/2004/02/skos/core#broader> <b> .',
 		'<b> <http://www.w3.org/2004/02/skos/core#broader> <superclass> .'
 	]),
-	findall(Superclass, sub_class(subclass, Superclass), Superclasses),
+	findall(Superclass, sub_concept(subclass, Superclass), Superclasses),
 	assertion(Superclasses == [b, superclass]).
 
 :- end_tests(suite).
