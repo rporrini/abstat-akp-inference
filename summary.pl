@@ -5,4 +5,5 @@
 load(File) :- 
 	rdf_load(File, [format(ntriples), silent(true)]).
 
-sub_class(_,_) :- true.
+sub_class(Subclass, Superclass) :- 
+	rdf(Subclass, 'http://www.w3.org/2004/02/skos/core#broader', Superclass).

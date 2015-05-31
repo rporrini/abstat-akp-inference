@@ -36,6 +36,13 @@ test('sublcass relations should be used to reconstruct a simple hierarchy', [cle
 	]),
 	load(File),
 	sub_class('subclass', 'superclass').
+test('subclassed should be queriable', [cleanup(delete_file(File))]) :- 
+	file(File,[
+		'<subclass> <http://www.w3.org/2004/02/skos/core#broader> <superclass> .'
+	]),
+	load(File),
+	sub_class(subclass, Superclass),
+	assertion(Superclass == superclass).
 test('should always pass') :- true.
 
 :- end_tests(suite).
