@@ -3,5 +3,5 @@
 set -e
 
 swipl --version
-swipl -s test_suite.pl -g 'run_tests,halt' -t 'halt(1)'
+swipl -s src/test_suite.pl -g 'run_tests,halt' -t 'halt(1)'
 
