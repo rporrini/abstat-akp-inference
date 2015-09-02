@@ -1,9 +1,7 @@
-sudo: true
+sudo: required
 
-env: UML_DOCKERCOMPOSE=0 UML_FIG=0 QUIET=1
-
-install:
-- curl -sLo - http://j.mp/install-travis-docker | sh -xe
+services:
+- docker
 
 script:
 - ./run "./sandbox_run bin/test_suite"
