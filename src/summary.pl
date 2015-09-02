@@ -13,4 +13,7 @@ sub_concept(Subconcept, Superconcept) :-
 	skos:broader(Subconcept, X),
 	sub_concept(X, Superconcept).
 
-akp(_,_,_).
+akp(Subject, Predicate, Object) :-
+	rdf(Akp, rdf:subject, Subject),
+	rdf(Akp, rdf:predicate, Predicate),
+	rdf(Akp, rdf:object, Object).
