@@ -1,5 +1,5 @@
 :- use_module(library(semweb/rdf_db)).
-:- use_module(concept_graph).
+:- use_module(summary).
 
 :- begin_tests(suite).
 
@@ -62,6 +62,17 @@ test('subclasses should be entailed', [nondet, cleanup(empty_kb(File))]) :-
 	]),
 	findall(Superclass, sub_concept(subclass, Superclass), Superclasses),
 	assertion(Superclasses == [b, superclass]).
+
+test('akps should be represented') :-
+	current_predicate(akp/3).
+
+test('an akp should be loaded as reified statement',[cleanup(empty_kb(File))]) :-
+	kb(File, [
+		'<akp> <http://www.w3.org/1999/02/22-rdf-syntax-ns#subject> <subject> .',
+		'<akp> <http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate> <predicate> .',
+		'<akp> <http://www.w3.org/1999/02/22-rdf-syntax-ns#object> <object> .'
+	]),
+	akp(subject, predicate, object).
 
 :- end_tests(suite).
 
