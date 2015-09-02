@@ -65,7 +65,6 @@ test('subclasses should be entailed', [nondet, cleanup(empty_kb(File))]) :-
 
 test('akps should be represented') :-
 	current_predicate(akp/3).
-
 test('an akp should be loaded as reified statement',[nondet, cleanup(empty_kb(File))]) :-
 	kb(File, [
 		'<akp> <http://www.w3.org/1999/02/22-rdf-syntax-ns#subject> <subject> .',
@@ -82,6 +81,15 @@ test('akps subjects should be entailed', [nondet, cleanup(empty_kb(File))]) :-
 		'<akp> <http://www.w3.org/1999/02/22-rdf-syntax-ns#object> <object> .'
 	]),
 	findall(Concept, akp(Concept, predicate, object), Concepts),
+	assertion(Concepts == [subclass, superclass]).
+test('akps objects should be entailed', [nondet, cleanup(empty_kb(File))]) :-
+	kb(File, [
+		'<subclass> <http://www.w3.org/2004/02/skos/core#broader> <superclass> .',
+		'<akp> <http://www.w3.org/1999/02/22-rdf-syntax-ns#subject> <subject> .',
+		'<akp> <http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate> <predicate> .',
+		'<akp> <http://www.w3.org/1999/02/22-rdf-syntax-ns#object> <subclass> .'
+	]),
+	findall(Concept, akp(subject, predicate, Concept), Concepts),
 	assertion(Concepts == [subclass, superclass]).
 
 :- end_tests(suite).

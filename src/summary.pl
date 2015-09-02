@@ -23,4 +23,7 @@ akp(Subject, Predicate, Object) :-
 akp(Superconcept, Predicate, Object) :-
 	sub_concept(Subject, Superconcept),
 	akp(Subject, Predicate, Object).
+akp(Subject, Predicate, Superconcept) :-
+	sub_concept(Object, Superconcept),
+	akp(Subject, Predicate, Object).
 
