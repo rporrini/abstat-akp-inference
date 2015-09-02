@@ -13,4 +13,4 @@ sub_concept(Subconcept, Superconcept) :-
 	skos:broader(Subconcept, X),
 	sub_concept(X, Superconcept).
 
-akp(X,Y,Z).
+akp(_,_,_).

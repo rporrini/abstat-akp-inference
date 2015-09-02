@@ -64,7 +64,7 @@ test('subclasses should be entailed', [nondet, cleanup(empty_kb(File))]) :-
 	assertion(Superclasses == [b, superclass]).
 
 test('akp should be represented') :-
-	akp(X,Y,Z).
+	akp(_,_,_).
 
 :- end_tests(suite).
 
