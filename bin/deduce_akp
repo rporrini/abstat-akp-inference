@@ -1,0 +1,6 @@
+#!/bin/bash
+
+set -e
+
+swipl -s src/main.pl
+
