@@ -2,9 +2,6 @@
 :- use_module(library(semweb/rdf_db)).
 :- use_module(library(semweb/rdf_ntriples)).
 
-:- dynamic sub_concept/2.
-:- dynamic akp/3.
-
 load(File) :- 
 	rdf_load(File, [format(ntriples), silent(true)]).
 

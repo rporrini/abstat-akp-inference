@@ -91,6 +91,17 @@ test('akps objects should be entailed', [nondet, cleanup(empty_kb(File))]) :-
 	]),
 	findall(Concept, akp(subject, predicate, Concept), Concepts),
 	assertion(Concepts == [subclass, superclass]).
+test('akps subjects and objects should be entailed', [nondet, cleanup(empty_kb(File))]) :-
+	kb(File, [
+		'<subclass> <http://www.w3.org/2004/02/skos/core#broader> <superclass> .',
+		'<akp> <http://www.w3.org/1999/02/22-rdf-syntax-ns#subject> <subclass> .',
+		'<akp> <http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate> <predicate> .',
+		'<akp> <http://www.w3.org/1999/02/22-rdf-syntax-ns#object> <subclass> .'
+	]),
+	akp(subclass, predicate, subclass),
+	akp(superclass, predicate, subclass),
+	akp(subclass, predicate, superclass),
+	akp(superclass, predicate, superclass).
 
 :- end_tests(suite).
 
