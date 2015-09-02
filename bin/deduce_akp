@@ -2,5 +2,5 @@
 
 set -e
 
-swipl -s src/main.pl
+swipl -s src/main.pl -g 'main,halt' -t 'halt(1)'
 
