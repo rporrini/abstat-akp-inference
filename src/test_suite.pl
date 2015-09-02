@@ -1,5 +1,5 @@
 :- use_module(library(semweb/rdf_db)).
-:- use_module(concept_graph).
+:- use_module(summary).
 
 :- begin_tests(suite).
 

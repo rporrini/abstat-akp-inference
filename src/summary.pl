@@ -1,4 +1,4 @@
-:- module(concept_graph, [load/1, sub_concept/2]).
+:- module(summary, [load/1, sub_concept/2]).
 :- use_module(library(semweb/rdf_db)).
 :- use_module(library(semweb/rdf_ntriples)).
 
