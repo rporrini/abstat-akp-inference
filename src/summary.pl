@@ -2,6 +2,9 @@
 :- use_module(library(semweb/rdf_db)).
 :- use_module(library(semweb/rdf_ntriples)).
 
+:- dynamic sub_concept/2.
+:- dynamic akp/3.
+
 load(File) :- 
 	rdf_load(File, [format(ntriples), silent(true)]).
 
@@ -17,3 +20,7 @@ akp(Subject, Predicate, Object) :-
 	rdf(Akp, rdf:subject, Subject),
 	rdf(Akp, rdf:predicate, Predicate),
 	rdf(Akp, rdf:object, Object).
+akp(Superconcept, Predicate, Object) :-
+	sub_concept(Subject, Superconcept),
+	akp(Subject, Predicate, Object).
+
