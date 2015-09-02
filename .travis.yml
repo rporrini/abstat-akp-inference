@@ -4,4 +4,4 @@ services:
 - docker
 
 script:
-- ./run "./sandbox_run bin/test_suite"
+- ./sandbox_run bin/test_suite
