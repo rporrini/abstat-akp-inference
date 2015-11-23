@@ -3,7 +3,7 @@
 :- use_module(library(semweb/rdf_ntriples)).
 
 load(File) :- 
-	rdf_load(File, [format(ntriples), silent(true)]).
+	rdf_load(File, [format(ntriples), silent(false)]).
 
 skos:broader(Subconcept, Superconcept) :-
 	rdf(Subconcept, skos:broader, Superconcept).
@@ -17,3 +17,10 @@ akp(Subject, Predicate, Object) :-
 	rdf(Akp, rdf:subject, Subject),
 	rdf(Akp, rdf:predicate, Predicate),
 	rdf(Akp, rdf:object, Object).
+akp(Superconcept, Predicate, Object) :-
+	sub_concept(Subject, Superconcept),
+	akp(Subject, Predicate, Object).
+akp(Subject, Predicate, Superconcept) :-
+	sub_concept(Object, Superconcept),
+	akp(Subject, Predicate, Object).
+
