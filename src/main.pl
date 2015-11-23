@@ -12,6 +12,6 @@ load_all :-
 	writeln("Done").
 
 demo :-
-	akp('http://ld-summaries.org/resource/dbpedia-2014/dbpedia.org/ontology/ClassicalMusicArtist', 'http://ld-summaries.org/resource/dbpedia-2014/datatype-property/xmlns.com/foaf/0.1/name', 'http://ld-summaries.org/resource/dbpedia-2014/www.w3.org/2000/01/rdf-schema#Literal'),
-	writeln("AKP found.").
+	akp('http://ld-summaries.org/resource/dbpedia-2014/dbpedia.org/ontology/Work', 'http://ld-summaries.org/resource/dbpedia-2014/datatype-property/xmlns.com/foaf/0.1/name', 'http://ld-summaries.org/resource/dbpedia-2014/www.w3.org/2000/01/rdf-schema#Literal'),
+	writeln("dbo:Work foaf:name rdfs:Literal found using inference on the AKP base.").
 
