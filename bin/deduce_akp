@@ -2,5 +2,6 @@
 
 set -e
 
-swipl -s src/main.pl -g 'main,halt' -t 'halt(1)'
+swipl --version
+swipl -s src/main.pl -g "load_all,demo,halt" -t "halt(1)"
 

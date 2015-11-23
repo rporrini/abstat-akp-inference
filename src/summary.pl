@@ -3,7 +3,7 @@
 :- use_module(library(semweb/rdf_ntriples)).
 
 load(File) :- 
-	rdf_load(File, [format(ntriples), silent(true)]).
+	rdf_load(File, [format(ntriples), silent(false)]).
 
 skos:broader(Subconcept, Superconcept) :-
 	rdf(Subconcept, skos:broader, Superconcept).

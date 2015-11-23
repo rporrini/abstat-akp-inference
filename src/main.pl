@@ -1,7 +1,7 @@
 :- use_module(summary).
 
-main :-
-	writeln("loading files"),
+load_all :-
+	writeln("Loading files"),
 	load("summaries/dbpedia-2014/concept-graph.nt"),
 	load("summaries/dbpedia-2014/akp-datatype.nt"),
 	load("summaries/dbpedia-2014/akp-object-00.nt"),
@@ -9,9 +9,9 @@ main :-
 	load("summaries/dbpedia-2014/akp-object-02.nt"),
 	load("summaries/dbpedia-2014/akp-object-03.nt"),
 	load("summaries/dbpedia-2014/akp-object-04.nt"),
-	writeln("done"),
-	writeln("starting writing"),
-	open("file.txt", write, Stream, [buffer(line)]),
-	forall(akp(X, _ ,_), write(Stream, X)),
-	close(Stream).
+	writeln("Done").
+
+demo :-
+	akp('http://ld-summaries.org/resource/dbpedia-2014/dbpedia.org/ontology/ClassicalMusicArtist', 'http://ld-summaries.org/resource/dbpedia-2014/datatype-property/xmlns.com/foaf/0.1/name', 'http://ld-summaries.org/resource/dbpedia-2014/www.w3.org/2000/01/rdf-schema#Literal'),
+	writeln("AKP found.").
 
