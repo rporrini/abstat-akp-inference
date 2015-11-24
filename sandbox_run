@@ -6,11 +6,11 @@ this_directory=`cd $relative_path;pwd`
 cd $this_directory
 name=akp-inference
 
-echo "********** building the enviroment **********"
+echo "********** Building the enviroment **********"
 docker build --rm -t $name .
 docker rm -f $(docker ps -aq)
-echo "********** running $@ **********"
-docker run -it -h $name-sandbox --name $name $name "$@" 2> /dev/null
+echo "********** Running $@ **********"
+docker run -it -h $name-sandbox --name $name $name "$@"
 exit_code=$(docker inspect -f {{.State.ExitCode}} $name)
 message=FAIL
 if [[ $exit_code -eq 0 ]]
