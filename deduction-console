@@ -1,0 +1,4 @@
+#!/bin/bash
+
+./console bin/deduce_akp
+

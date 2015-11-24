@@ -6,8 +6,8 @@ this_directory=`cd $relative_path;pwd`
 cd $this_directory
 name=akp-inference
 
-echo "********** Building the enviroment **********"
-docker build --rm -t $name .
+echo "********** Building the enviroment using Docker **********"
+docker build --rm -t $name . > /dev/null
 docker rm -f $(docker ps -aq)
 echo "********** Running $@ **********"
 docker run -it -h $name-sandbox --name $name $name "$@"
