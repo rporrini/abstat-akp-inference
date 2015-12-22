@@ -5,5 +5,6 @@ load_all :-
 	load("summaries/dbpedia-2014/concept-graph-cleaned.nt"),
 	load("summaries/dbpedia-2014/directors.nt"),
 	load("summaries/dbpedia-2014/minimal-types.nt"),
+	load("summaries/dbpedia-2014/director-patterns.nt"),
 	writeln("Done").
 
