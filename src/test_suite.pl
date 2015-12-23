@@ -111,6 +111,16 @@ test('occurrences of akp should be tracked', [cleanup(empty_kb(File))]) :-
 	]),
 	findall(Occurrence, akp_occurrence(subject, predicate, object, Occurrence), Occurrences),
 	assertion(Occurrences == [1]) .
+test('occurrences of akp should be inferred for the subject', [cleanup(empty_kb(File))]) :-
+	kb(File, [
+		'<subject> <http://www.w3.org/2004/02/skos/core#broader> <thing> .',
+		'<akp> <http://www.w3.org/1999/02/22-rdf-syntax-ns#subject> <subject> .',
+		'<akp> <http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate> <predicate> .',
+		'<akp> <http://www.w3.org/1999/02/22-rdf-syntax-ns#object> <object> .',
+		'<akp> <http://ld-summaries.org/ontology/occurrence> "1"^^<http://www.w3.org/2001/XMLSchema#int> .'
+	]),
+	findall(Occurrence, akp_occurrence(thing, predicate, object, Occurrence), Occurrences),
+	assertion(Occurrences == [1]) .
 
 :- end_tests(suite).
 
