@@ -3,7 +3,7 @@
 relative_path=`dirname $0`
 this_directory=`cd $relative_path;pwd`
 
-cd $this_directory
+cd $this_directory/..
 name=akp-inference
 
 echo "********** Building the enviroment using Docker **********"

@@ -4,4 +4,4 @@ services:
 - docker
 
 script:
-- ./console bin/test_suite
+- ./test-console
