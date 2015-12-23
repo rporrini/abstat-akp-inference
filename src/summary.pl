@@ -31,6 +31,7 @@ akp(Subject, Predicate, Superconcept) :-
 
 akp_occurrence(Subject, Predicate, Object, Occurrence) :-
 	akp_definition(Akp, Subject, Predicate, Object),
-	rdf(Akp, lds:occurrence, literal(type(xsd:int, Occurrence))).
+	rdf(Akp, lds:occurrence, literal(type(xsd:int, Literal))),
+	atom_number(Literal, Occurrence).
 
 

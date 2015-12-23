@@ -110,7 +110,7 @@ test('occurrences of akp should be tracked', [cleanup(empty_kb(File))]) :-
 		'<akp> <http://ld-summaries.org/ontology/occurrence> "1"^^<http://www.w3.org/2001/XMLSchema#int> .'
 	]),
 	findall(Occurrence, akp_occurrence(subject, predicate, object, Occurrence), Occurrences),
-	assertion(Occurrences == ['1']) .
+	assertion(Occurrences == [1]) .
 
 :- end_tests(suite).
 
