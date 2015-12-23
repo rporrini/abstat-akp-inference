@@ -1,4 +1,4 @@
-:- module(summary, [load/1, sub_concept/2, akp/3, akp_occurrence/4]).
+:- module(summary, [load/1, sub_concept/2, akp/3, akp_occurrence/4, superconcept/2,path/2]).
 :- use_module(library(semweb/rdf_db)).
 :- use_module(library(semweb/rdf_ntriples)).
 
@@ -6,6 +6,23 @@
 
 load(File) :- 
 	rdf_load(File, [format(ntriples), silent(true)]).
+
+
+superconcept(Concept, 'http://www.w3.org/2002/07/owl#Thing') :- \+ rdf(Concept, skos:broader, _), !.
+superconcept(Concept, Superconcept) :- rdf(Concept, skos:broader, Superconcept).
+
+path(Concept,Path) :- path1(Concept,['http://www.w3.org/2002/07/owl#Thing'],Path).
+
+path1(Concept,[Concept|Rest],[Concept|Rest]).
+path1(Concept,[Y|Rest],Path) :- superconcept(Y,Superconcept), path1(Concept,[Superconcept,Y|Rest],Path).
+
+path(G,A,B,P) :- path1(G,A,[B],P).
+
+path1(_,A,[A|P1],[A|P1]).
+path1(G,A,[Y|P1],P) :- 
+   adjacent(X,Y,G), \+ memberchk(X,[Y|P1]), path1(G,A,[X,Y|P1],P).
+
+
 
 sub_concept(Subconcept, Superconcept) :-
 	rdf(Subconcept, skos:broader, Superconcept).
