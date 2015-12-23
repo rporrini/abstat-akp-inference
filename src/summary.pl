@@ -38,4 +38,9 @@ akp_occurrence(Subject, Predicate, Object, Occurrence) :-
 	akp_occurrence_definition(Subject, Predicate, Object, Occurrence).
 akp_occurrence(Superconcept, Predicate, Object, Occurrences) :-
 	sub_concept(Subject, Superconcept),
-	akp_occurrence(Subject, Predicate, Object, Occurrences).
+	akp_occurrence(Subject, Predicate, Object, Occurrences),
+	! .
+akp_occurrence(Subject, Predicate, Superconcept, Occurrences) :-
+	sub_concept(Object, Superconcept),
+	akp_occurrence(Subject, Predicate, Object, Occurrences),
+	! .
