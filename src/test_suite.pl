@@ -134,5 +134,9 @@ test('the super concept of a concept should be the broader one', [cleanup(empty_
 	findall(Superconcept, super_concept(concept, Superconcept), Superconcepts),
 	assertion(Superconcepts == [superconcept]) .
 
+test('owl:Thing should be the upper concept of the lattice') :-
+	findall(Superconcept, super_concept(any, Superconcept), Superconcepts),
+	assertion(Superconcepts == ['http://www.w3.org/2002/07/owl#Thing']) .
+
 :- end_tests(suite).
 

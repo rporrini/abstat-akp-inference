@@ -9,6 +9,8 @@ load(File) :-
 
 super_concept(Concept, Superconcept) :-
 	rdf(Concept, skos:broader, Superconcept).
+super_concept(Concept, 'http://www.w3.org/2002/07/owl#Thing') :-
+	 \+ rdf(Concept, skos:broader, _).
 
 sub_concept(Subconcept, Superconcept) :-
 	rdf(Subconcept, skos:broader, Superconcept).
