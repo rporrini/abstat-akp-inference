@@ -127,5 +127,12 @@ test('occurrences of akp should be inferred for both subject and object', [clean
 	findall(Occurrence, akp_occurrence(thing, predicate, thing, Occurrence), Occurrences),
 	assertion(Occurrences == [1]) .
 
+test('the super concept of a concept should be the broader one', [cleanup(empty_kb(File))]) :-
+	kb(File, [
+		'<concept> <http://www.w3.org/2004/02/skos/core#broader> <superconcept> .'
+	]),
+	findall(Superconcept, super_concept(concept, Superconcept), Superconcepts),
+	assertion(Superconcepts == [superconcept]) .
+
 :- end_tests(suite).
 

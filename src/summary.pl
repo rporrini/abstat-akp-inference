@@ -1,4 +1,4 @@
-:- module(summary, [load/1, sub_concept/2, akp/3, akp_occurrence/4]).
+:- module(summary, [load/1, sub_concept/2, akp/3, akp_occurrence/4, super_concept/2]).
 :- use_module(library(semweb/rdf_db)).
 :- use_module(library(semweb/rdf_ntriples)).
 
@@ -7,6 +7,8 @@
 load(File) :- 
 	rdf_load(File, [format(ntriples), silent(true)]).
 
+super_concept(Concept, Superconcept) :-
+	rdf(Concept, skos:broader, Superconcept).
 
 sub_concept(Subconcept, Superconcept) :-
 	rdf(Subconcept, skos:broader, Superconcept).
