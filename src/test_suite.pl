@@ -60,5 +60,12 @@ test('subclasses should include the concept itself', [cleanup(empty_kb(File))]) 
 	descendants(superclass, Descendants),
 	assertion(Descendants == [subclass,superclass]).
 
+test('should get the minimal type of an instance', [cleanup(empty_kb(File))]) :- 
+	kb(File,[
+		'<instance> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <type> .'
+	]),
+	minimalType(instance, Type),
+	assertion(Type == type).
+
 :- end_tests(suite).
 

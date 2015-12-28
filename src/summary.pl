@@ -1,4 +1,4 @@
-:- module(summary, [load/1, descendant/2, descendants/2]).
+:- module(summary, [load/1, descendant/2, descendants/2, minimalType/2]).
 :- use_module(library(semweb/rdf_db)).
 :- use_module(library(semweb/rdf_ntriples)).
 
@@ -16,4 +16,7 @@ descendant(Subconcept, Superconcept) :-
 descendant(Subconcept, Superconcept) :-
 	rdf(Subconcept, skos:broader, X),
 	descendant(X, Superconcept).
+
+minimalType(Entity, Type) :-
+	rdf(Entity, rdf:type, Type).
 
