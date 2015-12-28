@@ -51,7 +51,14 @@ test('subclasses should be collected', [cleanup(empty_kb(File))]) :-
 		'<c> <http://www.w3.org/2004/02/skos/core#broader> <superclass> .'
 	]),
 	descendants(superclass, Descendants),
-	assertion(Descendants == [c,subclass,b]).
+	assertion(Descendants == [c,subclass,b,superclass]).
+
+test('subclasses should include the concept itself', [cleanup(empty_kb(File))]) :- 
+	kb(File,[
+		'<subclass> <http://www.w3.org/2004/02/skos/core#broader> <superclass> .'
+	]),
+	descendants(superclass, Descendants),
+	assertion(Descendants == [subclass,superclass]).
 
 :- end_tests(suite).
 
