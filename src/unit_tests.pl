@@ -1,7 +1,7 @@
+:- begin_tests(suite).
+
 :- use_module(library(semweb/rdf_db)).
 :- use_module(summary).
-
-:- begin_tests(suite).
 
 file(File, Lines) :- 
 	tmp_file(test, File),
