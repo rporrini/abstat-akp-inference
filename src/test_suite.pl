@@ -37,20 +37,21 @@ test('many triples should be loaded', [cleanup(empty_kb(File))]) :-
 	rdf(d, e, f),
 	rdf(g, h, i).
 
-test('sublcass relations should be used to reconstruct a simple hierarchy', [cleanup(empty_kb(File))]) :- 
+test('sublcass relations should be used to reconstruct a simple hierarchy', nondet, [cleanup(empty_kb(File))]) :- 
 	kb(File,[
 		'<subclass> <http://www.w3.org/2004/02/skos/core#broader> <superclass> .'
 	]),
-	findall(Superclass, descendant(subclass, Superclass), Superclasses),
-	assertion(Superclasses == [superclass]).
+	descendant(subclass, Superclass),
+	assertion(Superclass == superclass).
 
-test('subclasses should be entailed', [cleanup(empty_kb(File))]) :- 
+test('subclasses should be collected', [cleanup(empty_kb(File))]) :- 
 	kb(File,[
 		'<subclass> <http://www.w3.org/2004/02/skos/core#broader> <b> .',
 		'<b> <http://www.w3.org/2004/02/skos/core#broader> <c> .',
 		'<c> <http://www.w3.org/2004/02/skos/core#broader> <superclass> .'
 	]),
-	descendant(subclass, superclass).
+	descendants(superclass, Descendants),
+	assertion(Descendants == [c,subclass,b]).
 
 :- end_tests(suite).
 
