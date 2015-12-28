@@ -1,3 +1,4 @@
+:- module(main, [load_all/0]).
 :- use_module(summary).
 
 load_all :-

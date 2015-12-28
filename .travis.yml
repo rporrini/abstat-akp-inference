@@ -4,4 +4,5 @@ services:
 - docker
 
 script:
-- ./test-console
+- ./test-console unit
+- ./test-console acceptance
