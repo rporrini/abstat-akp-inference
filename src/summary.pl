@@ -7,7 +7,8 @@
 load(File) :- rdf_load(File, [format(ntriples), silent(true)]).
 
 descendants(Concept, Descendants) :- 
-	findall(Descendant, descendant(Descendant, Concept), Descendants).
+	findall(Descendant, descendant(Descendant, Concept), DescendantList),
+	list_to_set(DescendantList, Descendants).
 
 descendant(Subconcept, Superconcept) :-
 	rdf(Subconcept, skos:broader, Superconcept).
