@@ -25,14 +25,15 @@ akp(SubjectType, Property, ObjectType, AKP) :-
 	rdf(Subject, Property, Object),
 	minimalType(Subject, SubjectType),
 	minimalType(Object, ObjectType),
-	AKP = (Subject, Object).
+	AKP = {Subject, Object}.
 
 inferredAkps(SubjectType, Property, ObjectType, AKPs):-
-	findall(AKP, inferredAkp(SubjectType, Property, ObjectType, AKP), AKPs).
+	findall(AKP, inferredAkp(SubjectType, Property, ObjectType, AKP), AKPList),
+	list_to_set(AKPList, AKPs).
 
 inferredAkp(SubjectType, Property, ObjectType, AKP):-
 	descendants(SubjectType, InferredSubjectTypes),
-	memberchk(InferredSubjectType, InferredSubjectTypes),
+	member(InferredSubjectType, InferredSubjectTypes),
 	descendants(ObjectType, InferredObjectTypes),
-	memberchk(InferredObjectType, InferredObjectTypes),
+	member(InferredObjectType, InferredObjectTypes),
 	akp(InferredSubjectType, Property, InferredObjectType, AKP).
