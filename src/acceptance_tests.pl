@@ -8,11 +8,15 @@
 test('should load simple akps') :- 
 	akps('http://dbpedia.org/ontology/Film', 'http://dbpedia.org/ontology/director', 'http://dbpedia.org/ontology/Person', AKPs),
 	length(AKPs, L),
-	assertion( L = 61653).
+	assertion( L = 61653 ).
 
 test('should infer trivial akps') :- 
 	occurrence('http://dbpedia.org/ontology/Film', 'http://dbpedia.org/ontology/director', 'http://dbpedia.org/ontology/PrimeMinister', L),
-	assertion( L = 2).
+	assertion( L = 2 ).
+
+test('should infer akps') :- 
+	occurrence('http://dbpedia.org/ontology/Film', 'http://dbpedia.org/ontology/director', 'http://dbpedia.org/ontology/Politician', L),
+	assertion( L = 37 ).
 
 :- end_tests(suite).
 
