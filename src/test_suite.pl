@@ -134,5 +134,14 @@ test('the super concept of a concept should be the broader one', [cleanup(empty_
 	super_concept(concept, Superconcept),
 	assertion(Superconcept == superconcept) .
 
+test('the super concepts should include all the sub concepts down the hierarchy', [cleanup(empty_kb(File))]) :-
+	kb(File, [
+		'<superconcept> <http://www.w3.org/2004/02/skos/core#broader> <thing> .' ,
+		'<concept> <http://www.w3.org/2004/02/skos/core#broader> <superconcept> .'
+	]),
+	%trace,
+	descendants(thing, Subconcepts),
+	assertion(Subconcepts == [superconcept, concept]) .
+
 :- end_tests(suite).
 

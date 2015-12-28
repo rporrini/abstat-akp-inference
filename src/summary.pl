@@ -1,18 +1,17 @@
-:- module(summary, [load/1, sub_concept/2, akp/3, akp_occurrence/4, super_concept/2, super_concepts/2]).
+:- module(summary, [load/1, sub_concept/2, akp/3, akp_occurrence/4, super_concept/2, descendants/2]).
 :- use_module(library(semweb/rdf_db)).
 :- use_module(library(semweb/rdf_ntriples)).
 
 :- rdf_register_prefix(lds, 'http://ld-summaries.org/ontology/').
 
-load(File) :- 
-	rdf_load(File, [format(ntriples), silent(true)]).
+load(File) :- rdf_load(File, [format(ntriples), silent(true)]).
 
-super_concept(Concept, 'http://www.w3.org/2002/07/owl#Thing') :- \+ rdf(Concept, skos:broader, _).
 super_concept(Concept, Superconcept) :- rdf(Concept, skos:broader, Superconcept).
-
-super_concepts(Concept, Path) :-
-	super_concept(Concept, Superconcept),
-	super_concepts(Superconcept, [Superconcept|Path]).
+descendants(Concept, Path) :-
+	super_concept(Subconcept, Concept),
+	descendants(Subconcept, [Subconcept|Path]).
+descendants(Concept, _) :- 
+	\+ super_concept(_, Concept).
 
 
 sub_concept(Subconcept, Superconcept) :-
