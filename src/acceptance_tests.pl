@@ -10,5 +10,10 @@ test('should load simple akps') :-
 	length(AKPs, L),
 	assertion( L = 61653).
 
+test('should infer trivial akps') :- 
+	inferredAkps('http://dbpedia.org/ontology/Film', 'http://dbpedia.org/ontology/director', 'http://dbpedia.org/ontology/PrimeMinister', AKPs),
+	length(AKPs, L),
+	assertion( L = 2).
+
 :- end_tests(suite).
 

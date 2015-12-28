@@ -2,8 +2,6 @@
 :- use_module(library(semweb/rdf_db)).
 :- use_module(library(semweb/rdf_ntriples)).
 
-:- rdf_register_prefix(lds, 'http://ld-summaries.org/ontology/').
-
 load(File) :- rdf_load(File, [format(ntriples)]).
 
 descendants(Concept, Descendants) :- 
