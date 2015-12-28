@@ -17,8 +17,3 @@ descendant(Subconcept, Superconcept) :-
 	rdf(Subconcept, skos:broader, X),
 	descendant(X, Superconcept).
 
-akp(Akp, Subject, Predicate, Object) :-
-	rdf(Akp, rdf:subject, Subject),
-	rdf(Akp, rdf:predicate, Predicate),
-	rdf(Akp, rdf:object, Object).
-
