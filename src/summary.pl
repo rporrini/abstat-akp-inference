@@ -1,4 +1,4 @@
-:- module(summary, [load/1, sub_concept/2, akp/3, akp_occurrence/4]).
+:- module(summary, [load/1, descendant/2, akp/4]).
 :- use_module(library(semweb/rdf_db)).
 :- use_module(library(semweb/rdf_ntriples)).
 
@@ -6,40 +6,14 @@
 
 load(File) :- rdf_load(File, [format(ntriples), silent(true)]).
 
-sub_concept(Subconcept, Superconcept) :-
+descendant(Subconcept, Superconcept) :-
 	rdf(Subconcept, skos:broader, Superconcept).
-sub_concept(Subconcept, Superconcept) :-
+descendant(Subconcept, Superconcept) :-
 	rdf(Subconcept, skos:broader, X),
-	sub_concept(X, Superconcept).
+	descendant(X, Superconcept).
 
-akp_definition(Akp, Subject, Predicate, Object) :-
+akp(Akp, Subject, Predicate, Object) :-
 	rdf(Akp, rdf:subject, Subject),
 	rdf(Akp, rdf:predicate, Predicate),
 	rdf(Akp, rdf:object, Object).
 
-akp(Subject, Predicate, Object) :-
-	akp_definition(_, Subject, Predicate, Object).
-akp(Superconcept, Predicate, Object) :-
-	sub_concept(Subject, Superconcept),
-	akp(Subject, Predicate, Object),
-	!.
-akp(Subject, Predicate, Superconcept) :-
-	sub_concept(Object, Superconcept),
-	akp(Subject, Predicate, Object),
-	!.
-
-akp_occurrence_definition(Subject, Predicate, Object, Occurrence) :-
-	akp_definition(Akp, Subject, Predicate, Object),
-	rdf(Akp, lds:occurrence, literal(type(xsd:int, Literal))),
-	atom_number(Literal, Occurrence).
-
-akp_occurrence(Subject, Predicate, Object, Occurrence) :-
-	akp_occurrence_definition(Subject, Predicate, Object, Occurrence).
-akp_occurrence(Superconcept, Predicate, Object, Occurrences) :-
-	sub_concept(Subject, Superconcept),
-	akp_occurrence(Subject, Predicate, Object, Occurrences),
-	! .
-akp_occurrence(Subject, Predicate, Superconcept, Occurrences) :-
-	sub_concept(Object, Superconcept),
-	akp_occurrence(Subject, Predicate, Object, Occurrences),
-	! .

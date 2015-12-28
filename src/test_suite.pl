@@ -41,91 +41,16 @@ test('sublcass relations should be used to reconstruct a simple hierarchy', [cle
 	kb(File,[
 		'<subclass> <http://www.w3.org/2004/02/skos/core#broader> <superclass> .'
 	]),
-	findall(Superclass, sub_concept(subclass, Superclass), Superclasses),
+	findall(Superclass, descendant(subclass, Superclass), Superclasses),
 	assertion(Superclasses == [superclass]).
+
 test('subclasses should be entailed', [cleanup(empty_kb(File))]) :- 
 	kb(File,[
 		'<subclass> <http://www.w3.org/2004/02/skos/core#broader> <b> .',
 		'<b> <http://www.w3.org/2004/02/skos/core#broader> <c> .',
 		'<c> <http://www.w3.org/2004/02/skos/core#broader> <superclass> .'
 	]),
-	sub_concept(subclass, superclass).
-test('subclasses should be entailed', [cleanup(empty_kb(File))]) :- 
-	kb(File,[
-		'<subclass> <http://www.w3.org/2004/02/skos/core#broader> <b> .',
-		'<b> <http://www.w3.org/2004/02/skos/core#broader> <superclass> .'
-	]),
-	findall(Superclass, sub_concept(subclass, Superclass), Superclasses),
-	assertion(Superclasses == [b, superclass]).
-test('akps should be represented') :-
-	current_predicate(akp/3).
-test('akps subjects should be entailed', [cleanup(empty_kb(File))]) :-
-	kb(File, [
-		'<subclass> <http://www.w3.org/2004/02/skos/core#broader> <superclass> .',
-		'<akp> <http://www.w3.org/1999/02/22-rdf-syntax-ns#subject> <subclass> .',
-		'<akp> <http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate> <predicate> .',
-		'<akp> <http://www.w3.org/1999/02/22-rdf-syntax-ns#object> <object> .'
-	]),
-	findall(Concept, akp(Concept, predicate, object), Concepts),
-	assertion(Concepts == [subclass, superclass]).
-test('akps objects should be entailed', [cleanup(empty_kb(File))]) :-
-	kb(File, [
-		'<subclass> <http://www.w3.org/2004/02/skos/core#broader> <superclass> .',
-		'<akp> <http://www.w3.org/1999/02/22-rdf-syntax-ns#subject> <subject> .',
-		'<akp> <http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate> <predicate> .',
-		'<akp> <http://www.w3.org/1999/02/22-rdf-syntax-ns#object> <subclass> .'
-	]),
-	findall(Concept, akp(subject, predicate, Concept), Concepts),
-	assertion(Concepts == [subclass, superclass]).
-test('akps subjects and objects should be entailed', [cleanup(empty_kb(File))]) :-
-	kb(File, [
-		'<class> <http://www.w3.org/2004/02/skos/core#broader> <thing> .',
-		'<akp> <http://www.w3.org/1999/02/22-rdf-syntax-ns#subject> <class> .',
-		'<akp> <http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate> <predicate> .',
-		'<akp> <http://www.w3.org/1999/02/22-rdf-syntax-ns#object> <class> .'
-	]),
-	findall(Predicate, akp(thing, Predicate, thing), Predicates),
-	assertion(Predicates == [predicate]) .
-test('occurrences of akp should be tracked', [cleanup(empty_kb(File))]) :-
-	kb(File, [
-		'<akp> <http://www.w3.org/1999/02/22-rdf-syntax-ns#subject> <subject> .',
-		'<akp> <http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate> <predicate> .',
-		'<akp> <http://www.w3.org/1999/02/22-rdf-syntax-ns#object> <object> .',
-		'<akp> <http://ld-summaries.org/ontology/occurrence> "1"^^<http://www.w3.org/2001/XMLSchema#int> .'
-	]),
-	findall(Occurrence, akp_occurrence(subject, predicate, object, Occurrence), Occurrences),
-	assertion(Occurrences == [1]) .
-test('occurrences of akp should be inferred for the subject', [cleanup(empty_kb(File))]) :-
-	kb(File, [
-		'<subject> <http://www.w3.org/2004/02/skos/core#broader> <thing> .',
-		'<akp> <http://www.w3.org/1999/02/22-rdf-syntax-ns#subject> <subject> .',
-		'<akp> <http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate> <predicate> .',
-		'<akp> <http://www.w3.org/1999/02/22-rdf-syntax-ns#object> <object> .',
-		'<akp> <http://ld-summaries.org/ontology/occurrence> "1"^^<http://www.w3.org/2001/XMLSchema#int> .'
-	]),
-	findall(Occurrence, akp_occurrence(thing, predicate, object, Occurrence), Occurrences),
-	assertion(Occurrences == [1]) .
-test('occurrences of akp should be inferred for the object', [cleanup(empty_kb(File))]) :-
-	kb(File, [
-		'<object> <http://www.w3.org/2004/02/skos/core#broader> <thing> .',
-		'<akp> <http://www.w3.org/1999/02/22-rdf-syntax-ns#subject> <subject> .',
-		'<akp> <http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate> <predicate> .',
-		'<akp> <http://www.w3.org/1999/02/22-rdf-syntax-ns#object> <object> .',
-		'<akp> <http://ld-summaries.org/ontology/occurrence> "1"^^<http://www.w3.org/2001/XMLSchema#int> .'
-	]),
-	findall(Occurrence, akp_occurrence(subject, predicate, thing, Occurrence), Occurrences),
-	assertion(Occurrences == [1]) .
-test('occurrences of akp should be inferred for both subject and object', [cleanup(empty_kb(File))]) :-
-	kb(File, [
-		'<object> <http://www.w3.org/2004/02/skos/core#broader> <thing> .',
-		'<subject> <http://www.w3.org/2004/02/skos/core#broader> <thing> .',
-		'<akp> <http://www.w3.org/1999/02/22-rdf-syntax-ns#subject> <subject> .',
-		'<akp> <http://www.w3.org/1999/02/22-rdf-syntax-ns#predicate> <predicate> .',
-		'<akp> <http://www.w3.org/1999/02/22-rdf-syntax-ns#object> <object> .',
-		'<akp> <http://ld-summaries.org/ontology/occurrence> "1"^^<http://www.w3.org/2001/XMLSchema#int> .'
-	]),
-	findall(Occurrence, akp_occurrence(thing, predicate, thing, Occurrence), Occurrences),
-	assertion(Occurrences == [1]) .
+	descendant(subclass, superclass).
 
 :- end_tests(suite).
 
