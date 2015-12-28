@@ -1,4 +1,4 @@
-:- module(summary, [load/1, descendant/2, descendants/2, akp/4]).
+:- module(summary, [load/1, descendant/2, descendants/2]).
 :- use_module(library(semweb/rdf_db)).
 :- use_module(library(semweb/rdf_ntriples)).
 
