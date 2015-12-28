@@ -4,7 +4,7 @@
 
 :- rdf_register_prefix(lds, 'http://ld-summaries.org/ontology/').
 
-load(File) :- rdf_load(File, [format(ntriples), silent(true)]).
+load(File) :- rdf_load(File, [format(ntriples)]).
 
 descendants(Concept, Descendants) :- 
 	findall(Descendant, descendant(Descendant, Concept), DescendantList),
