@@ -1,4 +1,4 @@
-:- module(summary, [load/1, descendant/2, descendants/2, minimalType/2]).
+:- module(summary, [load/1, descendant/2, descendants/2, minimalType/2, akps/4]).
 :- use_module(library(semweb/rdf_db)).
 :- use_module(library(semweb/rdf_ntriples)).
 
@@ -19,4 +19,13 @@ descendant(Subconcept, Superconcept) :-
 
 minimalType(Entity, Type) :-
 	rdf(Entity, rdf:type, Type).
+
+akps(SubjectType, Property, ObjectType, AKPs) :-
+	findall(AKP, akp(SubjectType, Property, ObjectType, AKP), AKPs).
+
+akp(SubjectType, Property, ObjectType, AKP) :-
+	minimalType(Subject, SubjectType),
+	minimalType(Object, ObjectType),
+	rdf(Subject, Property, Object),
+	AKP = (Subject, Object).
 

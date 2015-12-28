@@ -67,5 +67,15 @@ test('should get the minimal type of an instance', [cleanup(empty_kb(File))]) :-
 	minimalType(instance, Type),
 	assertion(Type == type).
 
+test('should get all instancies of a given AKP', [cleanup(empty_kb(File))]) :- 
+	kb(File,[
+		'<the_movie> <director> <ron_jeffries> .',
+		'<the_movie> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <film> .',
+		'<ron_jeffries> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <person> .'
+	]),
+	akps(film, director, person, AKPs),
+	assertion(AKPs == [(the_movie, ron_jeffries)]).
+
+
 :- end_tests(suite).
 
