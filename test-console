@@ -1,4 +1,4 @@
 #!/bin/bash
 
-./bin/console bin/test_suite
+./bin/console bin/test unit_tests
 

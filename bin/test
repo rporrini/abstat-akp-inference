@@ -1,0 +1,7 @@
+#!/bin/bash
+
+set -e
+
+swipl --version
+swipl -s src/$1.pl -g 'run_tests,halt' -t 'halt(1)'
+
