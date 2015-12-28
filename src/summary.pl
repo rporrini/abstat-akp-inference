@@ -24,8 +24,8 @@ akps(SubjectType, Property, ObjectType, AKPs) :-
 	findall(AKP, akp(SubjectType, Property, ObjectType, AKP), AKPs).
 
 akp(SubjectType, Property, ObjectType, AKP) :-
+	rdf(Subject, Property, Object),
 	minimalType(Subject, SubjectType),
 	minimalType(Object, ObjectType),
-	rdf(Subject, Property, Object),
 	AKP = (Subject, Object).
 
