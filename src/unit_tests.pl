@@ -74,7 +74,7 @@ test('should get all instancies of a given AKP', [cleanup(empty_kb(File))]) :-
 		'<ron_jeffries> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <person> .'
 	]),
 	akps(film, director, person, AKPs),
-	assertion(AKPs == [(the_movie, ron_jeffries)]).
+	assertion(AKPs == [{the_movie, ron_jeffries}]).
 
 test('should get all instancies of a given AKP via subject type inference', [cleanup(empty_kb(File))]) :- 
 	kb(File,[
@@ -84,7 +84,7 @@ test('should get all instancies of a given AKP via subject type inference', [cle
 		'<ron_jeffries> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <person> .'
 	]),
 	inferredAkps(work, director, person, AKPs),
-	assertion(AKPs == [(the_movie, ron_jeffries)]).
+	assertion(AKPs == [{the_movie, ron_jeffries}]).
 
 test('should get all instancies of a given AKP via object type inference', [cleanup(empty_kb(File))]) :- 
 	kb(File,[
@@ -94,7 +94,7 @@ test('should get all instancies of a given AKP via object type inference', [clea
 		'<person> <http://www.w3.org/2004/02/skos/core#broader> <agent> .'
 	]),
 	inferredAkps(film, director, agent, AKPs),
-	assertion(AKPs == [(the_movie, ron_jeffries)]).
+	assertion(AKPs == [{the_movie, ron_jeffries}]).
 
 :- end_tests(suite).
 
