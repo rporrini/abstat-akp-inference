@@ -131,19 +131,8 @@ test('the super concept of a concept should be the broader one', [cleanup(empty_
 	kb(File, [
 		'<concept> <http://www.w3.org/2004/02/skos/core#broader> <superconcept> .'
 	]),
-	findall(Superconcept, super_concept(concept, Superconcept), Superconcepts),
-	assertion(Superconcepts == [superconcept]) .
-
-test('the super concepts of a concept should include owl:Thing') :-
-	super_concepts(any, Superconcepts),
-	assertion(Superconcepts == ['http://www.w3.org/2002/07/owl#Thing']) .
-
-test('the super concepts should include the direct super concepts', [cleanup(empty_kb(File))]) :-
-	kb(File, [
-		'<concept> <http://www.w3.org/2004/02/skos/core#broader> <superconcept> .'
-	]),
-	super_concepts(concept, Superconcepts),
-	assertion(Superconcepts == [superconcept, 'http://www.w3.org/2002/07/owl#Thing']) .
+	super_concept(concept, Superconcept),
+	assertion(Superconcept == superconcept) .
 
 :- end_tests(suite).
 
