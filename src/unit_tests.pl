@@ -96,5 +96,17 @@ test('should get all instancies of a given AKP via object type inference', [clea
 	inferredAkps(film, director, agent, AKPs),
 	assertion(AKPs == [{the_movie, ron_jeffries}]).
 
+test('should not duplicate the occurrences of inferred akps', [cleanup(empty_kb(File))]) :- 
+	kb(File,[
+		'<chuck_norris> <style> <judo> .',
+		'<judo> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <martial_art> .',
+		'<chuck_norris> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <athlete> .',
+		'<chuck_norris> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <actor> .',
+		'<athlete> <http://www.w3.org/2004/02/skos/core#broader> <person> .',
+		'<actor> <http://www.w3.org/2004/02/skos/core#broader> <person> .'
+	]),
+	inferredAkps(person, style, martial_art, AKPs),
+	assertion(AKPs == [{chuck_norris, judo}]).
+
 :- end_tests(suite).
 
