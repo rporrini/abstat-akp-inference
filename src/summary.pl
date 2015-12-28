@@ -33,7 +33,7 @@ inferredAkps(SubjectType, Property, ObjectType, AKPs):-
 
 inferredAkp(SubjectType, Property, ObjectType, AKP):-
 	descendants(SubjectType, InferredSubjectTypes),
-	member(InferredSubjectType, InferredSubjectTypes),
 	descendants(ObjectType, InferredObjectTypes),
+	member(InferredSubjectType, InferredSubjectTypes),
 	member(InferredObjectType, InferredObjectTypes),
 	akp(InferredSubjectType, Property, InferredObjectType, AKP).
