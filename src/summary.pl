@@ -1,4 +1,4 @@
-:- module(summary, [load/1, descendant/2, descendants/2, minimalType/2, akps/4]).
+:- module(summary, [load/1, descendant/2, descendants/2, minimalType/2, akps/4, inferredAkps/4]).
 :- use_module(library(semweb/rdf_db)).
 :- use_module(library(semweb/rdf_ntriples)).
 
@@ -29,3 +29,12 @@ akp(SubjectType, Property, ObjectType, AKP) :-
 	minimalType(Object, ObjectType),
 	AKP = (Subject, Object).
 
+inferredAkps(SubjectType, Property, ObjectType, AKPs):-
+	findall(AKP, inferredAkp(SubjectType, Property, ObjectType, AKP), AKPs).
+
+inferredAkp(SubjectType, Property, ObjectType, AKP):-
+	descendants(SubjectType, InferredSubjectTypes),
+	memberchk(InferredSubjectType, InferredSubjectTypes),
+	descendants(ObjectType, InferredObjectTypes),
+	memberchk(InferredObjectType, InferredObjectTypes),
+	akp(InferredSubjectType, Property, InferredObjectType, AKP).
