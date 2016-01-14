@@ -6,3 +6,5 @@ services:
 script:
 - ./test-console unit
 - ./test-console acceptance
+- ./test-console benchmark
+
