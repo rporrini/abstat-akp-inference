@@ -1,39 +1,44 @@
-:- module(summary, [load/1, descendant/2, descendants/2, minimalType/2, akps/4, inferredAkps/4]).
+:- module(summary, [load/1, descendant/2, descendants/2, minimalType/2, mPatterns/4, iPatterns/4, occurrence/4]).
 :- use_module(library(semweb/rdf_db)).
 :- use_module(library(semweb/rdf_ntriples)).
 
 load(File) :- rdf_load(File, [format(ntriples)]).
 
-descendants(Concept, Descendants) :- 
-	findall(Descendant, descendant(Descendant, Concept), DescendantList),
+descendants(Type, Descendants) :- 
+	findall(Descendant, descendant(Descendant, Type), DescendantList),
 	list_to_set(DescendantList, DescendantSet),
-	append(DescendantSet, [Concept], Descendants).
+	append(DescendantSet, [Type], Descendants).
 
-descendant(Subconcept, Superconcept) :-
-	rdf(Subconcept, skos:broader, Superconcept).
-descendant(Subconcept, Superconcept) :-
-	rdf(Subconcept, skos:broader, X),
-	descendant(X, Superconcept).
+descendant(Subtype, Supertype) :-
+	rdf(Subtype, skos:broader, Supertype).
+descendant(Subtype, Supertype) :-
+	rdf(Subtype, skos:broader, X),
+	descendant(X, Supertype).
 
 minimalType(Entity, Type) :-
 	rdf(Entity, rdf:type, Type).
 
-akps(SubjectType, Property, ObjectType, AKPs) :-
-	findall(AKP, akp(SubjectType, Property, ObjectType, AKP), AKPs).
+mPatterns(C, P, D, Instances) :-
+	findall(Instance, mPattern(C, P, D, Instance), Instances).
 
-akp(SubjectType, Property, ObjectType, AKP) :-
-	rdf(Subject, Property, Object),
-	minimalType(Subject, SubjectType),
-	minimalType(Object, ObjectType),
-	AKP = {Subject, Object}.
+mPattern(C, P, D, Instance) :-
+	rdf(Subject, P, Object),
+	minimalType(Subject, C),
+	minimalType(Object, D),
+	Instance = {Subject, Object}.
 
-inferredAkps(SubjectType, Property, ObjectType, AKPs):-
-	findall(AKP, inferredAkp(SubjectType, Property, ObjectType, AKP), AKPList),
-	list_to_set(AKPList, AKPs).
+iPatterns(C, P, D, Instances):-
+	findall(Instance, iPattern(C, P, D, Instance), InstancesList),
+	list_to_set(InstancesList, Instances).
 
-inferredAkp(SubjectType, Property, ObjectType, AKP):-
-	descendants(SubjectType, InferredSubjectTypes),
-	descendants(ObjectType, InferredObjectTypes),
-	akp(InferredSubjectType, Property, InferredObjectType, AKP),
-	member(InferredSubjectType, InferredSubjectTypes),
-	member(InferredObjectType, InferredObjectTypes).
+iPattern(C, P, D, Instance):-
+	descendants(C, ICs),
+	descendants(D, IDs),
+	mPattern(IC, P, ID, Instance),
+	member(IC, ICs),
+	member(ID, IDs).
+
+occurrence(C, P, D, O) :-
+	iPatterns(C, P, D, Patterns),
+	length(Patterns, O).
+

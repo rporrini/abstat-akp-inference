@@ -1,4 +1,4 @@
-:- module(main, [load_all/0, occurrence/4]).
+:- module(main, [load_all/0]).
 :- use_module(summary).
 
 load_all :-
@@ -9,7 +9,4 @@ load_all :-
 	load("summaries/dbpedia-2014/director-patterns.nt"),
 	writeln("% Done").
 
-occurrence(SubjectType, Property, ObjectType, O) :-
-	inferredAkps(SubjectType, Property, ObjectType, AKPs),
-	length(AKPs, O).
 

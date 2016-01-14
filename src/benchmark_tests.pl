@@ -2,6 +2,7 @@
 
 :- use_module(library(semweb/rdf_db)).
 :- use_module(main).
+:- use_module(summary).
 :- use_module(library(statistics)).
 
 :- 

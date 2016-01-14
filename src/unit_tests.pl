@@ -37,14 +37,14 @@ test('many triples should be loaded', [cleanup(empty_kb(File))]) :-
 	rdf(d, e, f),
 	rdf(g, h, i).
 
-test('sublcass relations should be used to reconstruct a simple hierarchy', nondet, [cleanup(empty_kb(File))]) :- 
+test('subtype relations should be used to reconstruct a simple hierarchy', nondet, [cleanup(empty_kb(File))]) :- 
 	kb(File,[
 		'<subclass> <http://www.w3.org/2004/02/skos/core#broader> <superclass> .'
 	]),
 	descendant(subclass, Superclass),
 	assertion(Superclass == superclass).
 
-test('subclasses should be collected', [cleanup(empty_kb(File))]) :- 
+test('descendants should be collected', [cleanup(empty_kb(File))]) :- 
 	kb(File,[
 		'<subclass> <http://www.w3.org/2004/02/skos/core#broader> <b> .',
 		'<b> <http://www.w3.org/2004/02/skos/core#broader> <c> .',
@@ -53,7 +53,7 @@ test('subclasses should be collected', [cleanup(empty_kb(File))]) :-
 	descendants(superclass, Descendants),
 	assertion(Descendants == [c,subclass,b,superclass]).
 
-test('subclasses should include the concept itself', [cleanup(empty_kb(File))]) :- 
+test('descendants should include the concept itself', [cleanup(empty_kb(File))]) :- 
 	kb(File,[
 		'<subclass> <http://www.w3.org/2004/02/skos/core#broader> <superclass> .'
 	]),
@@ -67,36 +67,36 @@ test('should get the minimal type of an instance', [cleanup(empty_kb(File))]) :-
 	minimalType(instance, Type),
 	assertion(Type == type).
 
-test('should get all instancies of a given AKP', [cleanup(empty_kb(File))]) :- 
+test('should get all instancies of a given pattern', [cleanup(empty_kb(File))]) :- 
 	kb(File,[
 		'<the_movie> <director> <ron_jeffries> .',
 		'<the_movie> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <film> .',
 		'<ron_jeffries> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <person> .'
 	]),
-	akps(film, director, person, AKPs),
+	mPatterns(film, director, person, AKPs),
 	assertion(AKPs == [{the_movie, ron_jeffries}]).
 
-test('should get all instancies of a given AKP via subject type inference', [cleanup(empty_kb(File))]) :- 
+test('should get all instancies of a given pattern via subject type inference', [cleanup(empty_kb(File))]) :- 
 	kb(File,[
 		'<the_movie> <director> <ron_jeffries> .',
 		'<the_movie> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <film> .',
 		'<film> <http://www.w3.org/2004/02/skos/core#broader> <work> .',
 		'<ron_jeffries> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <person> .'
 	]),
-	inferredAkps(work, director, person, AKPs),
+	iPatterns(work, director, person, AKPs),
 	assertion(AKPs == [{the_movie, ron_jeffries}]).
 
-test('should get all instancies of a given AKP via object type inference', [cleanup(empty_kb(File))]) :- 
+test('should get all instancies of a given pattern via object type inference', [cleanup(empty_kb(File))]) :- 
 	kb(File,[
 		'<the_movie> <director> <ron_jeffries> .',
 		'<the_movie> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <film> .',
 		'<ron_jeffries> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <person> .',
 		'<person> <http://www.w3.org/2004/02/skos/core#broader> <agent> .'
 	]),
-	inferredAkps(film, director, agent, AKPs),
+	iPatterns(film, director, agent, AKPs),
 	assertion(AKPs == [{the_movie, ron_jeffries}]).
 
-test('should not duplicate the occurrences of inferred akps', [cleanup(empty_kb(File))]) :- 
+test('should not duplicate the occurrences of inferred patterns', [cleanup(empty_kb(File))]) :- 
 	kb(File,[
 		'<chuck_norris> <style> <judo> .',
 		'<judo> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <martial_art> .',
@@ -105,7 +105,7 @@ test('should not duplicate the occurrences of inferred akps', [cleanup(empty_kb(
 		'<athlete> <http://www.w3.org/2004/02/skos/core#broader> <person> .',
 		'<actor> <http://www.w3.org/2004/02/skos/core#broader> <person> .'
 	]),
-	inferredAkps(person, style, martial_art, AKPs),
+	iPatterns(person, style, martial_art, AKPs),
 	assertion(AKPs == [{chuck_norris, judo}]).
 
 :- end_tests(suite).
