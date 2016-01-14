@@ -1,5 +1,5 @@
 #!/bin/bash
 
-./bin/console bin/test $1_tests
+./bin/console bin/test $@
 
 
