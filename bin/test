@@ -3,5 +3,11 @@
 set -e
 
 swipl --version
-swipl -s src/$1_tests.pl -g 'run_tests,halt' -t 'halt(1)'
+
+for arg in "$@"
+do	
+	echo
+	echo $arg
+	swipl -s src/${arg}_tests.pl -g 'run_tests,halt' -t 'halt(1)'
+done
 
