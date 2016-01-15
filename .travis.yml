@@ -3,10 +3,6 @@ sudo: required
 services:
 - docker
 
-os:
-- linux
-- osx
-
 script:
 - ./test-console unit acceptance benchmark
 
