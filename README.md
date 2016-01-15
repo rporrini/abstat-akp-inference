@@ -6,11 +6,11 @@ ABSTAT*Inf* is a [SWI-Prolog](http://www.swi-prolog.org) prototype capable to in
 
 ### Run it
 
-ABSTAT*Inf* can be easily run within a [Docker](https://www.docker.com/) container. In order to do so, clone the repo, then install [install](https://docs.docker.com/engine/installation/) Docker in your machine, open a terminal, and type ```./inference-console```
+ABSTAT*Inf* can be easily run within a [Docker](https://www.docker.com/) container. In order to do so, clone the repo, then install [install](https://docs.docker.com/engine/installation/) Docker in your machine, open a terminal, and type ```./inference-console```.
 
 If your are on Windows or OSX, you can use [Docker Machine](https://docs.docker.com/machine/install-machine/) to run a complete docker environment and refer to the previous command, as well as the other commands in this README. 
 
-The above command will start a SWI-Prolog interpreter and load the [default linked data set](summaries/dbpedia-2014) (used for experiments) along with the corresponding summary from ABSTAT. You can compute the occurrence statistics of an inferred pattern via the predicate ```summary:occurrence(C, P, D, Occ)```
+The above command will start a SWI-Prolog interpreter and load the [default linked data set](summaries/dbpedia-2014) (used for experiments) along with the corresponding summary from ABSTAT. You can compute the occurrence statistics of an inferred pattern via the predicate ```summary:occurrence(C, P, D, Occ)```.
 
 ![Inference Console](docs/inference-console.png?raw=true)
 
