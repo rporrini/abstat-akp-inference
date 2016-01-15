@@ -1,6 +1,6 @@
 # ABSTAT*Inf* 
 
-[![Build Status](https://travis-ci.org/rporrini/abstat-akp-inference.svg?branch=master)](https://travis-ci.org/rporrini/abstat-akp-inference)
+[![Build Status](https://travis-ci.org/rporrini/abstat-inf.svg?branch=master)](https://travis-ci.org/rporrini/abstat-akp-inference)
 
 ABSTAT*Inf* is a [SWI-Prolog](http://www.swi-prolog.org) prototype capable to infer data patterns and their relative occurrence statistics in Linked Data sets. The prototype is built on top of the [ABSTAT](https://github.com/rporrini/abstat) framework.
 
