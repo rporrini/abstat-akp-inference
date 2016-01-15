@@ -26,7 +26,7 @@ The same data set is used for [effeciency benchmarking](src/benchmark_tests.pl) 
 
 For convenience, the ```./test-console``` command accepts a list of test suites and runs them sequentially, so that you can execute more tests with one single command, e.g., ```./test-console unit acceptance benchmark```.
 
-### Running outside the Docker envirinment
+### Running outside the Docker environment
 
 If you are running Linux, you can also run ABSTAT*Inf* outside the Docker container by installing a SWI-Prolog interpreter (>=7.1.37). You can then the run the utility bash commands ```bin/infer-patterns``` and ```bin/test```, in the same way as for the above scripts for running and testing.
 
