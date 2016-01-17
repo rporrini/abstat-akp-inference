@@ -4,10 +4,10 @@ relative_path=`dirname $0`
 this_directory=`cd $relative_path;pwd`
 
 cd $this_directory/..
-name=akp-inference
+name=abstat-inf
 
 echo "********** Building the enviroment using Docker **********"
-docker build --rm -t $name . > /dev/null
+docker build --rm -t $name .
 docker rm -f $(docker ps -aq)
 echo "********** Running $@ **********"
 docker run -it -h $name-sandbox --name $name $name "$@"
