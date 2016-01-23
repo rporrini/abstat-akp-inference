@@ -9,6 +9,7 @@
 :- use_module(library(http/html_write)).
 :- use_module(library(http/html_head)).
 :- use_module(library(http/js_write)).
+:- use_module(library(semweb/rdf_db)).
 :- use_module(summary).
 
 server(Port) :- http_server(http_dispatch, [port(Port)]).
@@ -33,7 +34,7 @@ home(_) :-
 					div([class('page-header')], [h1(['Abstat', i('Inf'), ' ', small('web interface')])]),
 					h4('Count occurrences of inferred Abstract Knowledge Patterns'),
 					div([class('row')], 
-						[div([class('col-md-4')],
+						[div([class('col-md-3')],
 							form([],[
 								div([class('form-group')], [
 										input([class('form-control'), type('text'), placeholder('Subject'), 'ng-model'('subject')])
@@ -47,10 +48,15 @@ home(_) :-
 								button([type('submit'), class('btn btn-primary'), 'ng-click'('count_patterns()'), 'ng-disabled'('counting_patterns')], ['Count ', span([class('glyphicon glyphicon-repeat'), 'aria-hidden'(true), 'ng-show'('counting_patterns')],[])]), ' ',
 								button([type('submit'), class('btn btn-default'), 'ng-click'('get_sample()')], ['Sample query'])
 								])),
-						div([class('col-md-2')], [
+						div([class('col-md-3')], [
 								div([class('panel panel-default')],[
-									div([class('panel-heading')], ['Occurrences']),
-									div([class('panel-body')], ['{{result}}'])
+									div([class('panel-heading')], ['Query result']),
+									div([class('panel-body')], [div([], [strong('Occurrences '), span([class('badge')], ['{{result}}'])]),
+											            div(['ng-show'('stats')],[strong('Statistics')]),
+											            div(['ng-show'('stats')],['Elapsed time: ', code('{{stats.elapsed_time}} s')]),
+												    div(['ng-show'('stats')],['KB Assertions: ', code('{{stats.triples}}')]),
+											 	    div(['ng-show'('stats')],['KB Instances: ', code('{{stats.entities}}')])
+									])
 								])
 								
 							])
@@ -63,6 +69,7 @@ home(_) :-
 				abstat.controller('count', function ($scope, $http){
 					$scope.counting_patterns = false;
 					$scope.count_patterns = function(){
+						$scope.stats = null;
 						$scope.counting_patterns = true;
 						$scope.result = 'Counting';
 						$http.get('/count', {
@@ -74,8 +81,10 @@ home(_) :-
 							}}				
 						).success(function(result){
 							$scope.result = result.occurrence;
+							$scope.stats = result;
 							$scope.counting_patterns = false;
 						}).error(function(result){
+							$scope.stats = null;
 							$scope.result = 'Error';
 							$scope.counting_patterns = false;
 					})};
@@ -95,6 +104,11 @@ count_patterns(Request) :-
 	http_parameters(Request, 
 		[subject(S, []), object(O, []), predicate(P, [])]
 	),
+	get_time(Start),
 	occurrence(S,P,O,C),
-	reply_json(json([subject=S,predicate=P,subject=O,occurrence=C])).
+	get_time(End),
+	Delta is End - Start,
+	rdf_statistics(triples(Triples)),
+	rdf_statistics(resources(Entities)),
+	reply_json(json([subject=S,predicate=P,subject=O,occurrence=C,triples=Triples,entities=Entities,elapsed_time=Delta])).
 
