@@ -46,16 +46,39 @@ home(_) :-
 										input([class('form-control'), type('text'), placeholder('Object'), 'ng-model'('object')])
 									]),
 								button([type('submit'), class('btn btn-primary'), 'ng-click'('count_patterns()'), 'ng-disabled'('counting_patterns')], ['Count ', span([class('glyphicon glyphicon-repeat'), 'aria-hidden'(true), 'ng-show'('counting_patterns')],[])]), ' ',
-								button([type('submit'), class('btn btn-default'), 'ng-click'('get_sample()')], ['Sample query'])
+								button([type('submit'), class('btn btn-default'), 'ng-click'('get_sample()')], ['Sample query']), ' ',
+								button([type('submit'), class('btn btn-default'), 'ng-click'('undo()')], ['Back'])
 								])),
-						div([class('col-md-3')], [
+						div([class('col-md-2')], [
 								div([class('panel panel-default')],[
 									div([class('panel-heading')], ['Query result']),
-									div([class('panel-body')], [div([], [strong('Occurrences '), span([class('badge')], ['{{result}}'])]),
-											            div(['ng-show'('stats')],[strong('Statistics')]),
-											            div(['ng-show'('stats')],['Elapsed time: ', code('{{stats.elapsed_time}} s')]),
+									div([class('panel-body')], [div([], [span([class('badge')], ['{{result}}']), span(['ng-show'('stats')], [' occurrences'])]),
+												    div(['ng-show'('stats')],[strong('Statistics')]),
+											            div(['ng-show'('stats')],['Elapsed time: ', code('{{stats.elapsed_time | truncate }} s')]),
 												    div(['ng-show'('stats')],['KB Assertions: ', code('{{stats.triples}}')]),
 											 	    div(['ng-show'('stats')],['KB Instances: ', code('{{stats.entities}}')])
+									])
+								])
+								
+							]),
+						div([class('col-md-3')], [
+								div([class('panel panel-default')],[
+									div([class('panel-heading')], ['Subject Descentants']),
+									div([class('panel-body')], [
+										ul([class('list-unstyled')], [li(['ng-repeat'('type in descendants.subject')],[
+											a([href('#'), 'ng-click'('update_subject(type)')], ['{{type}}'])
+										])])
+									])
+								])
+								
+							]),
+						div([class('col-md-3')], [
+								div([class('panel panel-default')],[
+									div([class('panel-heading')], ['Object Descentants']),
+									div([class('panel-body')], [
+										ul([class('list-unstyled')], [li(['ng-repeat'('type in descendants.object')],[
+											a([href('#'), 'ng-click'('update_object(type)')], ['{{type}}'])
+										])])
 									])
 								])
 								
@@ -66,19 +89,46 @@ home(_) :-
 		),
 		script(type('text/javascript'), "
 				var abstat = angular.module('abstat-inf',[]);
+				abstat.filter('truncate', function(){
+					return function(number){
+						if(number) return (number).toFixed(4);
+						return '';
+					};
+				});
 				abstat.controller('count', function ($scope, $http){
 					$scope.counting_patterns = false;
+					$scope.descendants = [];
+					$scope.history = [];
+					$scope.update_subject = function(type){
+						$scope.subject = type;
+						$scope.count_patterns();
+					};
+					$scope.update_object = function(type){
+						$scope.object = type;
+						$scope.count_patterns();
+					};
+					$scope.undo = function(){
+						$scope.history.pop();
+						var pattern  = $scope.history.pop();
+						$scope.subject = pattern['subject'];
+						$scope.predicate = pattern['predicate'];
+						$scope.object = pattern['object'];
+						$scope.count_patterns();
+					};
 					$scope.count_patterns = function(){
-						$scope.stats = null;
-						$scope.counting_patterns = true;
-						$scope.result = 'Counting';
-						$http.get('/count', {
-							method: 'GET',
-							params: {
+						var pattern = {
 								subject: $scope.subject,
 								predicate: $scope.predicate,
 								object: $scope.object
-							}}				
+							};
+						$scope.stats = null;
+						$scope.counting_patterns = true;
+						$scope.result = 'Counting';
+						$scope.descendants.subject = ['Retrieving'];
+						$scope.descendants.object = ['Retrieving'];
+						$http.get('/count', {
+							method: 'GET',
+							params: pattern}				
 						).success(function(result){
 							$scope.result = result.occurrence;
 							$scope.stats = result;
@@ -87,7 +137,32 @@ home(_) :-
 							$scope.stats = null;
 							$scope.result = 'Error';
 							$scope.counting_patterns = false;
-					})};
+						});
+
+						$http.get('/descendants', {
+							method: 'GET',
+							params: {
+								type: $scope.subject
+							}}				
+						).success(function(result){
+							$scope.descendants.subject = result;
+						}).error(function(result){
+							$scope.descendants.subject = ['Error'];
+						});
+
+						$http.get('/descendants', {
+							method: 'GET',
+							params: {
+								type: $scope.object
+							}}				
+						).success(function(result){
+							$scope.descendants.object = result;
+						}).error(function(result){
+							$scope.descendants.object = ['Error'];
+						});
+						$scope.history.push(pattern);
+					};
+
 					$scope.get_sample = function(){
 						$scope.subject = 'http://dbpedia.org/ontology/Film';
 						$scope.predicate = 'http://dbpedia.org/ontology/director';
@@ -111,4 +186,13 @@ count_patterns(Request) :-
 	rdf_statistics(triples(Triples)),
 	rdf_statistics(resources(Entities)),
 	reply_json(json([subject=S,predicate=P,subject=O,occurrence=C,triples=Triples,entities=Entities,elapsed_time=Delta])).
+
+:- http_handler(root(descendants), get_descendants, []).
+get_descendants(Request) :- 
+	http_parameters(Request, 
+		[type(T, [])]
+	),
+	descendants(T, Desc),
+	prolog_to_json(Desc, Response),
+	reply_json(Response).
 
